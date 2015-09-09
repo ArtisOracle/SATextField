@@ -105,21 +105,14 @@ class SATextField: UITextField {
                 addSubview(l)
                 var constraints = [
                     NSLayoutConstraint(item: l, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Leading, multiplier: 1.0, constant: placeholderOffsetXDefault),
-//                    NSLayoutConstraint(item: l, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Top, multiplier: 1.0, constant: placeholderOffsetYDefault),
                     NSLayoutConstraint(item: l, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.CenterY, multiplier: 1.0, constant: placeholderOffsetYDefault),
                 ]
                 addConstraints(constraints)
-//                l.pinToParentView(
-//                    leading: placeholderOffsetXDefault,
-//                    top: placeholderOffsetYDefault,
-//                    trailing: 0.0,
-//                    bottom: 0.0
-//                )
                 
                 placeholderOffsetYSlid = placeholderOffsetYDefault - l.frame.height
             }
             l.text = placeholderText
-            l.font = font//.fontWithSize(font.pointSize * slidingPlaceholderFontSizePercentage)
+            l.font = font
             l.textColor = placeholderTextColor
             l.hidden = false
             l.alpha = 0.8
@@ -146,24 +139,6 @@ class SATextField: UITextField {
         return nil
     }
     
-    /// Finds the top constraint of the `UILabel` of the sliding placeholder
-//    var slidingPlaceholderTopConstraint: NSLayoutConstraint {
-//        if let cs = constraints() as? [NSLayoutConstraint] {
-//            if let c = cs.filter({ (item) -> Bool in
-//                if let l = item.firstItem as? UILabel where l.tag == ViewIdentifiers.SlidePlaceholderLabel.rawValue && item.secondAttribute == NSLayoutAttribute.Top {
-//                    return true
-//                }
-//                
-//                return false
-//            }).first {
-//                return c
-//            }
-//        }
-//        
-//        assertionFailure("You cannot call this before adding the label to the subview.")
-//        return NSLayoutConstraint()
-//    }
-    
     /// Finds the center-Y constraint of the `UILabel` of the sliding placeholder
     var slidingPlaceholderCenterYConstraint: NSLayoutConstraint {
         if let cs = constraints() as? [NSLayoutConstraint] {
@@ -182,6 +157,11 @@ class SATextField: UITextField {
         return NSLayoutConstraint()
     }
     
+    /**
+        Moves and sets the sldiing holder into the position it should be given the text field's state.
+    
+        :param: animated Whether to animate the transition. Defaults to `true`.
+    */
     func setSlidingPlaceholder(animated: Bool = true) {
         if let p = placeholderLabel {
             if !isFirstResponder() && text.isEmpty {
@@ -195,7 +175,6 @@ class SATextField: UITextField {
                 }
                 
                 if animated {
-//                    UIView.animateWithDuration(slideAnimationDuration, animations: setForInner)
                     UIView.animateWithDuration(slideAnimationDuration, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: setForInner, completion: nil)
                 } else {
                     setForInner()
@@ -211,7 +190,6 @@ class SATextField: UITextField {
                 }
     
                 if animated {
-//                    UIView.animateWithDuration(slideAnimationDuration, delay: 0.0, options: nil, animations: setForOuter, completion: nil)
                     UIView.animateWithDuration(slideAnimationDuration, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: setForOuter, completion: nil)
                 } else {
                     setForOuter()
@@ -220,17 +198,15 @@ class SATextField: UITextField {
         }
     }
     
-    /** Not to be invoked manually; subclass if necessary */
-    func textFieldDidBeginEditing(textField: SATextField) {
-        if textField === self {
-            textField.setSlidingPlaceholder()
+    func textFieldDidBeginEditing(textField: UITextField) {
+        if let tf = textField as? SATextField where tf === self {
+            tf.setSlidingPlaceholder()
         }
     }
     
-    /** Not to be invoked manually; subclass if necessary */
-    func textFieldDidEndEditing(textField: SATextField) {
-        if textField === self {
-            textField.setSlidingPlaceholder()
+    func textFieldDidEndEditing(textField: UITextField) {
+        if let tf = textField as? SATextField where tf === self {
+            tf.setSlidingPlaceholder()
         }
     }
 }
