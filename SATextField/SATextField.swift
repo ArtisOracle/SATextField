@@ -12,7 +12,7 @@ import UIKit
     Customiz-ed/-able version of `UITextField`.
 
     Features:
-    -
+    - Sliding placeholder label
 */
 @IBDesignable
 class SATextField: UITextField {
@@ -41,14 +41,14 @@ class SATextField: UITextField {
     /// Whether to slide the placeholder text from inside the text field
     /// to the top of the text field.
     var slidesPlaceholder = true
-    /// How long to animate the slide
-    var slideAnimationDuration: NSTimeInterval = 0.2
+    /// How long to animate the placeholder slide
+    var slideAnimationDuration: NSTimeInterval = 0.15
     /// slidingPlaceholderFontSizePercentage
     var slidingPlaceholderFontSizePercentage: CGFloat = 0.85
     /// An X-offset for the placeholder text from its bounds
     var placeholderOffsetXDefault: CGFloat = 0.0
     /// An X-offset for the placeholder while slid upward
-    var placeholderOffsetXSlid: CGFloat = -4.0
+    var placeholderOffsetXSlid: CGFloat = 0.0
     /// An Y-offset for the placeholder text from its bounds
     var placeholderOffsetYDefault: CGFloat = 0.0
     /// An Y-offset for the placeholder while slid upward
@@ -119,7 +119,7 @@ class SATextField: UITextField {
                 placeholderOffsetYSlid = placeholderOffsetYDefault - l.frame.height
             }
             l.text = placeholderText
-            l.font = font.fontWithSize(font.pointSize * slidingPlaceholderFontSizePercentage)
+            l.font = font//.fontWithSize(font.pointSize * slidingPlaceholderFontSizePercentage)
             l.textColor = placeholderTextColor
             l.hidden = false
             l.alpha = 0.8
@@ -185,6 +185,7 @@ class SATextField: UITextField {
     func setSlidingPlaceholder(animated: Bool = true) {
         if let p = placeholderLabel {
             if !isFirstResponder() && text.isEmpty {
+                p.setAnchorPoint(CGPoint(x: 0.5, y: 0.5))
                 let setForInner = { () -> Void in
                     self.slidingPlaceholderLeadingConstraint.constant = self.placeholderOffsetXDefault
                     self.slidingPlaceholderCenterYConstraint.constant = self.placeholderOffsetYDefault
@@ -200,6 +201,7 @@ class SATextField: UITextField {
                     setForInner()
                 }
             } else if slidingPlaceholderCenterYConstraint.constant != placeholderOffsetYSlid {
+                p.setAnchorPoint(CGPoint(x: 0.625, y: 0.5))
                 let setForOuter = { () -> Void in
                     self.slidingPlaceholderLeadingConstraint.constant = self.placeholderOffsetXSlid
                     self.slidingPlaceholderCenterYConstraint.constant = self.placeholderOffsetYSlid
@@ -216,60 +218,6 @@ class SATextField: UITextField {
                 }
             }
         }
-//        let placeholderRect = self.placeholderRect
-//        let label: UILabel
-//        
-//        setTranslatesAutoresizingMaskIntoConstraints(false)
-//        
-//        if let l = viewWithTag(ViewIdentifiers.SlidePlaceholderLabel.rawValue) as? UILabel {
-//            label = l
-//        } else {
-//            label = {
-//                let l = UILabel(frame: placeholderRect)
-//                l.tag = ViewIdentifiers.SlidePlaceholderLabel.rawValue
-//                l.setTranslatesAutoresizingMaskIntoConstraints(false)
-//                l.font = self.font.fontWithSize(self.font.pointSize * self.slidingPlaceholderFontSizePercentage)
-//                l.textColor = self.textColor.colorWithAlphaComponent(0.8)
-//                l.text = self.placeholder
-//                self.addSubview(l)
-//                l.addConstraint(NSLayoutConstraint(item: l, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1.0, constant: placeholderRect.size.height))
-//                self.addConstraint(NSLayoutConstraint(item: l, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Leading, multiplier: 1.0, constant: placeholderRect.origin.x))
-//                self.addConstraint(NSLayoutConstraint(item: l, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Top, multiplier: 1.0, constant: placeholderRect.origin.y))
-//                return l
-//            }()
-//        }
-//        
-//        if !isFirstResponder() && text.isEmpty {
-//            let setForInner = { () -> Void in
-//                self.slidingPlaceholderLeadingConstraint.constant = placeholderRect.origin.x + self.placeholderOffsetXDefault
-//                self.slidingPlaceholderTopConstraint.constant = placeholderRect.origin.y
-//                label.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.2, 1.2)
-//                label.alpha = 0.0
-//                self.placeholder = label.text
-//                self.layoutIfNeeded()
-//            }
-//            
-//            if animated {
-//                UIView.animateWithDuration(slideAnimationDuration, animations: setForInner)
-//            } else {
-//                setForInner()
-//            }
-//        } else {
-//            let setForOuter = { () -> Void in
-//                self.slidingPlaceholderLeadingConstraint.constant = self.placeholderOffsetXSlid
-//                self.slidingPlaceholderTopConstraint.constant = self.placeholderOffsetYSlid
-//                label.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0)
-//                label.alpha = 1.0
-//                self.placeholder = nil
-//                self.layoutIfNeeded()
-//            }
-//            
-//            if animated {
-//                UIView.animateWithDuration(slideAnimationDuration, delay: 0.0, options: nil, animations: setForOuter, completion: nil)
-//            } else {
-//                setForOuter()
-//            }
-//        }
     }
     
     /** Not to be invoked manually; subclass if necessary */

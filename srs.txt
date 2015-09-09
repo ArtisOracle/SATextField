@@ -1,0 +1,21 @@
+#Title
+SATextField library
+#Abstract
+A custom text field object that has certain features a `UITextField` does not.
+#Purpose
+Text field customization and to increase the user experience to meet the high design expectatations of iOS apps.
+#Definitions
+* **Sliding placeholder** - A placeholder label that is contained inside the text field until it receives first responder status. When the text field becomes first responder, the label slides out on top of the text field so as to not obstruct the placeholder label text by the user's entered text. If the text field text is not empty upon resigning first responder status, the placeholder will slide back inside the bounds of the text field.
+
+#Description
+A custom subclass of `UITextField` that attempts to emulate the behavior of text fields found in some popular angular.js libraries.
+
+#Features
+##Sliding placeholder
+When a text field gets responder status, if it has a placeholder, that placehoulder should slide on top of the field. This achieves two goals:
+
+1. The user is never uncertain of what they are entering into the field. A normal placeholder would've disappeared when the user enters a non-empty string into the text field. The consequence of that being the user isn't guaranteed to remember what kind of data they are supposed to enter into the text field. As a possible result, they might delete all the text outside of the text field to see what that field's purpose was.
+
+2. The placeholder has a lot more flexibility being a `UILabel`. While you can modify the placeholder's frame in a normal `UITextField`,
+	Apple has only private APIs for controlling the placeholder any more than that. So by adding a custom label subview to the text field, we
+	are free to customize it in many more ways than possible with the stock `UITextField`'s placeholder.
