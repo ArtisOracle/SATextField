@@ -31,11 +31,18 @@ class SATextField: UITextField {
             configurePlaceholder()
         }
     }
-    /// Use this to change the text color of the placeholder. Defaults to
-    /// UIColor.grayColor()
-    @IBInspectable var placeholderTextColor = UIColor.grayColor() {
+    /// Use this to change the text color of the placeholder for the default
+    /// state. Defaults to UIColor.grayColor().
+    @IBInspectable var placeholderTextColor: UIColor = UIColor.grayColor() {
         didSet {
-            placeholderLabel?.textColor = placeholderTextColor
+            configurePlaceholder()
+        }
+    }
+    /// Use this to change the text color of the placeholder for the slid
+    /// state. Defaults to UIColor.grayColor().
+    @IBInspectable var placeholderTextColorFocused: UIColor = UIColor.whiteColor() {
+        didSet {
+            configurePlaceholder()
         }
     }
     /// Whether to slide the placeholder text from inside the text field
@@ -53,6 +60,11 @@ class SATextField: UITextField {
     var placeholderOffsetYDefault: CGFloat = 0.0
     /// An Y-offset for the placeholder while slid upward
     var placeholderOffsetYSlid: CGFloat = 0.0
+    
+    /// Hook invoked to customize the placeholder when slid
+    var customizationsWhileSliding: ((UILabel) -> Void)?
+    /// Hook invoked to customize the placeholder when not slid
+    var customizationsForDefault: ((UILabel) -> Void)?
     
     /// Gets the placeholder's rectangle (wrapper for `placeholderRectForBounds:`)
     var placeholderRect: CGRect {
@@ -115,7 +127,6 @@ class SATextField: UITextField {
             l.font = font
             l.textColor = placeholderTextColor
             l.hidden = false
-            l.alpha = 0.8
         } else {
             placeholderLabel?.removeFromSuperview()
         }
@@ -170,7 +181,9 @@ class SATextField: UITextField {
                     self.slidingPlaceholderLeadingConstraint.constant = self.placeholderOffsetXDefault
                     self.slidingPlaceholderCenterYConstraint.constant = self.placeholderOffsetYDefault
                     p.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0)
+                    p.textColor = self.placeholderTextColor
                     p.alpha = 1.0
+                    self.customizationsForDefault?(p)
                     self.layoutIfNeeded()
                 }
                 
@@ -185,7 +198,8 @@ class SATextField: UITextField {
                     self.slidingPlaceholderLeadingConstraint.constant = self.placeholderOffsetXSlid
                     self.slidingPlaceholderCenterYConstraint.constant = self.placeholderOffsetYSlid
                     p.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.8, 0.8)
-                    p.alpha = 0.8
+                    p.textColor = self.isFirstResponder() ? self.placeholderTextColorFocused : self.placeholderTextColor
+                    self.customizationsWhileSliding?(p)
                     self.layoutIfNeeded()
                 }
     
@@ -237,26 +251,26 @@ extension UIView {
         self.superview?.setNeedsDisplay()
     }
     
-    /**
-        Sets the anchor point. Used for performing animations around points other than the center.
-
-        anchorPoint The desired anchor point of the view.
-    */
-    func setAnchorPoint(anchorPoint: CGPoint) {
-        var newPoint = CGPointMake(self.bounds.size.width * anchorPoint.x, self.bounds.size.height * anchorPoint.y)
-        var oldPoint = CGPointMake(self.bounds.size.width * self.layer.anchorPoint.x, self.bounds.size.height * self.layer.anchorPoint.y)
-        
-        newPoint = CGPointApplyAffineTransform(newPoint, self.transform)
-        oldPoint = CGPointApplyAffineTransform(oldPoint, self.transform)
-        
-        var position = self.layer.position
-        position.x -= oldPoint.x
-        position.x += newPoint.x
-        
-        position.y -= oldPoint.y
-        position.y += newPoint.y
-        
-        self.layer.position = position
-        self.layer.anchorPoint = anchorPoint
-    }
+//    /**
+//        Sets the anchor point. Used for performing animations around points other than the center.
+//
+//        anchorPoint The desired anchor point of the view.
+//    */
+//    func setAnchorPoint(anchorPoint: CGPoint) {
+//        var newPoint = CGPointMake(self.bounds.size.width * anchorPoint.x, self.bounds.size.height * anchorPoint.y)
+//        var oldPoint = CGPointMake(self.bounds.size.width * self.layer.anchorPoint.x, self.bounds.size.height * self.layer.anchorPoint.y)
+//        
+//        newPoint = CGPointApplyAffineTransform(newPoint, self.transform)
+//        oldPoint = CGPointApplyAffineTransform(oldPoint, self.transform)
+//        
+//        var position = self.layer.position
+//        position.x -= oldPoint.x
+//        position.x += newPoint.x
+//        
+//        position.y -= oldPoint.y
+//        position.y += newPoint.y
+//        
+//        self.layer.position = position
+//        self.layer.anchorPoint = anchorPoint
+//    }
 }
