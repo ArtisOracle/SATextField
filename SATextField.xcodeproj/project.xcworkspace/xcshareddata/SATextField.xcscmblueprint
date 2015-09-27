@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "9E4C0367EFB2FA753B5F3CC71CB6413F805E237B",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "09236C18B792473BBCD7DDA87E0FD805D950DF14" : 0,
+    "9E4C0367EFB2FA753B5F3CC71CB6413F805E237B" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "5B95E718-5A6B-428E-A2DC-918A1145DAE8",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "09236C18B792473BBCD7DDA87E0FD805D950DF14" : "..",
+    "9E4C0367EFB2FA753B5F3CC71CB6413F805E237B" : "SATextField\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "SATextField",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "SATextField.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github-Locqus:LocqusStefan\/Service-Pro-iOS",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "09236C18B792473BBCD7DDA87E0FD805D950DF14"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/ArtisOracle\/SATextField",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9E4C0367EFB2FA753B5F3CC71CB6413F805E237B"
+    }
+  ]
+}

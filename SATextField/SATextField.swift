@@ -73,7 +73,7 @@ class SATextField: UITextField {
     
     /// Returns the placeholder label if it exists
     var placeholderLabel: UILabel? {
-        let svs = subviews as! [UIView]
+        let svs = subviews 
         if let l = svs.filter({ $0.tag == ViewIdentifiers.SlidePlaceholderLabel.rawValue }).first as? UILabel {
             return l
         }
@@ -81,13 +81,13 @@ class SATextField: UITextField {
         return nil
     }
     
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        selfInit()
-    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        selfInit()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
         selfInit()
     }
     
@@ -106,16 +106,15 @@ class SATextField: UITextField {
     */
     private func configurePlaceholder() {
         if let t = placeholderText where !t.isEmpty {
-            let svs = subviews as! [UIView]
             let l: UILabel
             if let p = placeholderLabel {
                 l = p
             } else {
                 l = UILabel(frame: placeholderRect)
                 l.tag = ViewIdentifiers.SlidePlaceholderLabel.rawValue
-                l.setTranslatesAutoresizingMaskIntoConstraints(false)
+                l.translatesAutoresizingMaskIntoConstraints = false
                 addSubview(l)
-                var constraints = [
+                let constraints = [
                     NSLayoutConstraint(item: l, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Leading, multiplier: 1.0, constant: placeholderOffsetXDefault),
                     NSLayoutConstraint(item: l, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.CenterY, multiplier: 1.0, constant: placeholderOffsetYDefault),
                 ]
@@ -134,16 +133,14 @@ class SATextField: UITextField {
     
     /// Finds the leading constraint of the `UILabel` of the sliding placeholder
     var slidingPlaceholderLeadingConstraint: NSLayoutConstraint! {
-        if let cs = constraints() as? [NSLayoutConstraint] {
-            if let c = cs.filter({ (item) -> Bool in
-                if let l = item.firstItem as? UILabel where l.tag == ViewIdentifiers.SlidePlaceholderLabel.rawValue && item.secondAttribute == NSLayoutAttribute.Leading {
-                    return true
-                }
-                
-                return false
-            }).first {
-                return c
+        if let c = constraints.filter({ (item) -> Bool in
+            if let l = item.firstItem as? UILabel where l.tag == ViewIdentifiers.SlidePlaceholderLabel.rawValue && item.secondAttribute == NSLayoutAttribute.Leading {
+                return true
             }
+            
+            return false
+        }).first {
+            return c
         }
         
         assertionFailure("You cannot call this before adding the label's constraints to the subview.")
@@ -152,16 +149,14 @@ class SATextField: UITextField {
     
     /// Finds the center-Y constraint of the `UILabel` of the sliding placeholder
     var slidingPlaceholderCenterYConstraint: NSLayoutConstraint {
-        if let cs = constraints() as? [NSLayoutConstraint] {
-            if let c = cs.filter({ (item) -> Bool in
-                if let l = item.firstItem as? UILabel where l.tag == ViewIdentifiers.SlidePlaceholderLabel.rawValue && item.secondAttribute == NSLayoutAttribute.CenterY {
-                    return true
-                }
-                
-                return false
-            }).first {
-                return c
+        if let c = constraints.filter({ (item) -> Bool in
+            if let l = item.firstItem as? UILabel where l.tag == ViewIdentifiers.SlidePlaceholderLabel.rawValue && item.secondAttribute == NSLayoutAttribute.CenterY {
+                return true
             }
+            
+            return false
+        }).first {
+            return c
         }
         
         assertionFailure("You cannot call this before adding the label to the subview.")
@@ -171,11 +166,11 @@ class SATextField: UITextField {
     /**
         Moves and sets the sldiing holder into the position it should be given the text field's state.
     
-        :param: animated Whether to animate the transition. Defaults to `true`.
+        - parameter animated: Whether to animate the transition. Defaults to `true`.
     */
     func setSlidingPlaceholder(animated: Bool = true) {
         if let p = placeholderLabel {
-            if !isFirstResponder() && text.isEmpty {
+            if !isFirstResponder() && (text == nil || text!.isEmpty) {
                 p.setAnchorPoint(CGPoint(x: 0.5, y: 0.5))
                 let setForInner = { () -> Void in
                     self.slidingPlaceholderLeadingConstraint.constant = self.placeholderOffsetXDefault
@@ -226,7 +221,7 @@ class SATextField: UITextField {
 }
 
 
-extension UIView {
+private extension UIView {
     /**
         Sets the leading, top, trailing, and bottom constraints with the given amounts
         of this view to its parent view, effectively "pinning" it into its parent.
@@ -234,12 +229,12 @@ extension UIView {
         
         Makes calls to `layoutIfNeeded` and `updateConstraints` after adding the constraints.
         
-        :param: leading Leading space (optional).
-        :param: top Top space (optional).
-        :param: trailing Trailing space (optional).
-        :param: bottom Bottom space (optional).
+        - parameter leading: Leading space (optional).
+        - parameter top: Top space (optional).
+        - parameter trailing: Trailing space (optional).
+        - parameter bottom: Bottom space (optional).
     */
-    func pinToParentView(leading: CGFloat = 0.0, top: CGFloat = 0.0, trailing: CGFloat = 0.0, bottom: CGFloat = 0.0) {
+    private func pinToParentView(leading: CGFloat = 0.0, top: CGFloat = 0.0, trailing: CGFloat = 0.0, bottom: CGFloat = 0.0) {
         var constraints = [NSLayoutConstraint]()
         
         constraints.append(NSLayoutConstraint(item: self, attribute: .Top, relatedBy: .Equal, toItem: self.superview, attribute: .Top, multiplier: 1.0, constant: top))
@@ -251,26 +246,26 @@ extension UIView {
         self.superview?.setNeedsDisplay()
     }
     
-//    /**
-//        Sets the anchor point. Used for performing animations around points other than the center.
-//
-//        anchorPoint The desired anchor point of the view.
-//    */
-//    func setAnchorPoint(anchorPoint: CGPoint) {
-//        var newPoint = CGPointMake(self.bounds.size.width * anchorPoint.x, self.bounds.size.height * anchorPoint.y)
-//        var oldPoint = CGPointMake(self.bounds.size.width * self.layer.anchorPoint.x, self.bounds.size.height * self.layer.anchorPoint.y)
-//        
-//        newPoint = CGPointApplyAffineTransform(newPoint, self.transform)
-//        oldPoint = CGPointApplyAffineTransform(oldPoint, self.transform)
-//        
-//        var position = self.layer.position
-//        position.x -= oldPoint.x
-//        position.x += newPoint.x
-//        
-//        position.y -= oldPoint.y
-//        position.y += newPoint.y
-//        
-//        self.layer.position = position
-//        self.layer.anchorPoint = anchorPoint
-//    }
+    /**
+        Sets the anchor point. Used for performing animations around points other than the center.
+
+        anchorPoint The desired anchor point of the view.
+    */
+    private func setAnchorPoint(anchorPoint: CGPoint) {
+        var newPoint = CGPointMake(self.bounds.size.width * anchorPoint.x, self.bounds.size.height * anchorPoint.y)
+        var oldPoint = CGPointMake(self.bounds.size.width * self.layer.anchorPoint.x, self.bounds.size.height * self.layer.anchorPoint.y)
+        
+        newPoint = CGPointApplyAffineTransform(newPoint, self.transform)
+        oldPoint = CGPointApplyAffineTransform(oldPoint, self.transform)
+        
+        var position = self.layer.position
+        position.x -= oldPoint.x
+        position.x += newPoint.x
+        
+        position.y -= oldPoint.y
+        position.y += newPoint.y
+        
+        self.layer.position = position
+        self.layer.anchorPoint = anchorPoint
+    }
 }
