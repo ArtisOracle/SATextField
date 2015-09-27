@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -25,9 +26,12 @@
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholderText" value="My placeholder"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholderText" value="Second field"/>
                                     <userDefinedRuntimeAttribute type="color" keyPath="placeholderTextColor">
-                                        <color key="value" red="0.35009264945983887" green="0.73875176906585693" blue="0.94480925798416138" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="value" red="0.91357591149999995" green="0.91366752019999997" blue="0.91364820079999998" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="placeholderTextColorFocused">
+                                        <color key="value" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textField>
@@ -56,9 +60,12 @@
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholderText" value="My placeholder"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholderText" value="First field"/>
                                     <userDefinedRuntimeAttribute type="color" keyPath="placeholderTextColor">
-                                        <color key="value" red="0.35009264950000002" green="0.73875176909999996" blue="0.94480925800000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="value" red="0.91357591149999995" green="0.91366752019999997" blue="0.91364820079999998" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="placeholderTextColorFocused">
+                                        <color key="value" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textField>
