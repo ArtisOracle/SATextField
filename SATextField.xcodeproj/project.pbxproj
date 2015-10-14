@@ -14,6 +14,7 @@
 		F8747EBD1B99172A00F84F2D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F8747EBB1B99172A00F84F2D /* LaunchScreen.xib */; };
 		F8747EC91B99172A00F84F2D /* SATextFieldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8747EC81B99172A00F84F2D /* SATextFieldTests.swift */; };
 		F8747ED31B99174000F84F2D /* SATextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8747ED21B99174000F84F2D /* SATextField.swift */; };
+		F8BF80021BCF064B00AC80ED /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8BF80011BCF064B00AC80ED /* Extensions.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		F8747EC71B99172A00F84F2D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F8747EC81B99172A00F84F2D /* SATextFieldTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SATextFieldTests.swift; sourceTree = "<group>"; };
 		F8747ED21B99174000F84F2D /* SATextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SATextField.swift; sourceTree = "<group>"; };
+		F8BF80011BCF064B00AC80ED /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 				F8747EBB1B99172A00F84F2D /* LaunchScreen.xib */,
 				F8747EB01B99172900F84F2D /* Supporting Files */,
 				F8747ED21B99174000F84F2D /* SATextField.swift */,
+				F8BF80011BCF064B00AC80ED /* Extensions.swift */,
 			);
 			path = SATextField;
 			sourceTree = "<group>";
@@ -220,6 +223,7 @@
 				F8747EB51B99172900F84F2D /* ViewController.swift in Sources */,
 				F8747EB31B99172900F84F2D /* AppDelegate.swift in Sources */,
 				F8747ED31B99174000F84F2D /* SATextField.swift in Sources */,
+				F8BF80021BCF064B00AC80ED /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
