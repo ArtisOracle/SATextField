@@ -47,7 +47,7 @@ class SATextField: UITextField {
     }
     /// Whether to slide the placeholder text from inside the text field
     /// to the top of the text field.
-    var slidesPlaceholder = true
+    @IBInspectable var slidesPlaceholder: Bool = true
     /// How long to animate the placeholder slide
     var slideAnimationDuration: NSTimeInterval = 0.15
     /// slidingPlaceholderFontSizePercentage
@@ -170,39 +170,43 @@ class SATextField: UITextField {
     */
     func setSlidingPlaceholder(animated: Bool = true) {
         if let p = placeholderLabel {
-            if !isFirstResponder() && (text == nil || text!.isEmpty) {
-                p.setAnchorPoint(CGPoint(x: 0.5, y: 0.5))
-                let setForInner = { () -> Void in
-                    self.slidingPlaceholderLeadingConstraint.constant = self.placeholderOffsetXDefault
-                    self.slidingPlaceholderCenterYConstraint.constant = self.placeholderOffsetYDefault
-                    p.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0)
-                    p.textColor = self.placeholderTextColor
-                    p.alpha = 1.0
-                    self.customizationsForDefault?(p)
-                    self.layoutIfNeeded()
+            if slidesPlaceholder {
+                if !isFirstResponder() && (text == nil || text!.isEmpty) {
+                    p.setAnchorPoint(CGPoint(x: 0.5, y: 0.5))
+                    let setForInner = { () -> Void in
+                        self.slidingPlaceholderLeadingConstraint.constant = self.placeholderOffsetXDefault
+                        self.slidingPlaceholderCenterYConstraint.constant = self.placeholderOffsetYDefault
+                        p.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0)
+                        p.textColor = self.placeholderTextColor
+                        p.alpha = 1.0
+                        self.customizationsForDefault?(p)
+                        self.layoutIfNeeded()
+                    }
+                    
+                    if animated {
+                        UIView.animateWithDuration(slideAnimationDuration, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: setForInner, completion: nil)
+                    } else {
+                        setForInner()
+                    }
+                } else if slidingPlaceholderCenterYConstraint.constant != placeholderOffsetYSlid {
+                    p.setAnchorPoint(CGPoint(x: 0.625, y: 0.5))
+                    let setForOuter = { () -> Void in
+                        self.slidingPlaceholderLeadingConstraint.constant = self.placeholderOffsetXSlid
+                        self.slidingPlaceholderCenterYConstraint.constant = self.placeholderOffsetYSlid
+                        p.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.8, 0.8)
+                        p.textColor = self.isFirstResponder() ? self.placeholderTextColorFocused : self.placeholderTextColor
+                        self.customizationsWhileSliding?(p)
+                        self.layoutIfNeeded()
+                    }
+        
+                    if animated {
+                        UIView.animateWithDuration(slideAnimationDuration, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: setForOuter, completion: nil)
+                    } else {
+                        setForOuter()
+                    }
                 }
-                
-                if animated {
-                    UIView.animateWithDuration(slideAnimationDuration, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: setForInner, completion: nil)
-                } else {
-                    setForInner()
-                }
-            } else if slidingPlaceholderCenterYConstraint.constant != placeholderOffsetYSlid {
-                p.setAnchorPoint(CGPoint(x: 0.625, y: 0.5))
-                let setForOuter = { () -> Void in
-                    self.slidingPlaceholderLeadingConstraint.constant = self.placeholderOffsetXSlid
-                    self.slidingPlaceholderCenterYConstraint.constant = self.placeholderOffsetYSlid
-                    p.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.8, 0.8)
-                    p.textColor = self.isFirstResponder() ? self.placeholderTextColorFocused : self.placeholderTextColor
-                    self.customizationsWhileSliding?(p)
-                    self.layoutIfNeeded()
-                }
-    
-                if animated {
-                    UIView.animateWithDuration(slideAnimationDuration, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: setForOuter, completion: nil)
-                } else {
-                    setForOuter()
-                }
+            } else {
+                p.hidden = text != nil && !text!.isEmpty
             }
         }
     }
