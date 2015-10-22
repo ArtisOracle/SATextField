@@ -28,3 +28,14 @@ class ViewController: UIViewController {
     }
 }
 
+extension ViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if let r = view.viewWithTag(textField.tag + 1) {
+            r.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
+        
+        return true
+    }
+}

@@ -1,6 +1,10 @@
 # SATextField
 Custom textfield with placeholder that slides from inside to outside view's bounds
 
+## Demo
+![A demo gif should be here and not this text]
+(SATextField/docs/preview.gif)
+
 # License
 The MIT License (MIT)
 
