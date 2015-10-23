@@ -97,6 +97,7 @@ class SATextField: UITextField {
     private func selfInit() {
         addTarget(self, action: "textFieldDidBeginEditing:", forControlEvents: UIControlEvents.EditingDidBegin)
         addTarget(self, action: "textFieldDidEndEditing:", forControlEvents: UIControlEvents.EditingDidEnd)
+        addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
         configurePlaceholder()
     }
     
@@ -208,6 +209,12 @@ class SATextField: UITextField {
             } else {
                 p.hidden = text != nil && !text!.isEmpty
             }
+        }
+    }
+    
+    func textFieldDidChange(textField: UITextField) {
+        if let tf = textField as? SATextField where tf === self {
+            tf.setSlidingPlaceholder()
         }
     }
     
