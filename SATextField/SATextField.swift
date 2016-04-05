@@ -95,9 +95,18 @@ class SATextField: UITextField {
         Single point of initialization for `self`.
     */
     private func selfInit() {
-        addTarget(self, action: "textFieldDidBeginEditing:", forControlEvents: UIControlEvents.EditingDidBegin)
-        addTarget(self, action: "textFieldDidEndEditing:", forControlEvents: UIControlEvents.EditingDidEnd)
-        addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
+        addTarget(self,
+                  action: #selector(UITextFieldDelegate.textFieldDidBeginEditing(_:)),
+                  forControlEvents: UIControlEvents.EditingDidBegin
+        )
+        addTarget(self,
+                  action: #selector(UITextFieldDelegate.textFieldDidEndEditing(_:)),
+                  forControlEvents: UIControlEvents.EditingDidEnd
+        )
+        addTarget(self,
+                  action: #selector(SATextField.textFieldDidChange(_:)),
+                  forControlEvents: UIControlEvents.EditingChanged
+        )
         configurePlaceholder()
     }
     
@@ -116,8 +125,24 @@ class SATextField: UITextField {
                 l.translatesAutoresizingMaskIntoConstraints = false
                 addSubview(l)
                 let constraints = [
-                    NSLayoutConstraint(item: l, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Leading, multiplier: 1.0, constant: placeholderOffsetXDefault),
-                    NSLayoutConstraint(item: l, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.CenterY, multiplier: 1.0, constant: placeholderOffsetYDefault),
+                    NSLayoutConstraint(
+                        item: l,
+                        attribute: NSLayoutAttribute.Leading,
+                        relatedBy: NSLayoutRelation.Equal,
+                        toItem: self,
+                        attribute: NSLayoutAttribute.Leading,
+                        multiplier: 1.0,
+                        constant: placeholderOffsetXDefault
+                    ),
+                    NSLayoutConstraint(
+                        item: l,
+                        attribute: NSLayoutAttribute.CenterY,
+                        relatedBy: NSLayoutRelation.Equal,
+                        toItem: self,
+                        attribute: NSLayoutAttribute.CenterY,
+                        multiplier: 1.0,
+                        constant: placeholderOffsetYDefault
+                    ),
                 ]
                 addConstraints(constraints)
                 
@@ -135,8 +160,10 @@ class SATextField: UITextField {
     /// Finds the leading constraint of the `UILabel` of the sliding placeholder
     var slidingPlaceholderLeadingConstraint: NSLayoutConstraint! {
         if let c = constraints.filter({ (item) -> Bool in
-            if let l = item.firstItem as? UILabel where l.tag == ViewIdentifiers.SlidePlaceholderLabel.rawValue && item.secondAttribute == NSLayoutAttribute.Leading {
-                return true
+            if let l = item.firstItem as? UILabel where
+                l.tag == ViewIdentifiers.SlidePlaceholderLabel.rawValue &&
+                item.secondAttribute == NSLayoutAttribute.Leading {
+                    return true
             }
             
             return false
@@ -151,8 +178,10 @@ class SATextField: UITextField {
     /// Finds the center-Y constraint of the `UILabel` of the sliding placeholder
     var slidingPlaceholderCenterYConstraint: NSLayoutConstraint {
         if let c = constraints.filter({ (item) -> Bool in
-            if let l = item.firstItem as? UILabel where l.tag == ViewIdentifiers.SlidePlaceholderLabel.rawValue && item.secondAttribute == NSLayoutAttribute.CenterY {
-                return true
+            if let l = item.firstItem as? UILabel where
+                l.tag == ViewIdentifiers.SlidePlaceholderLabel.rawValue &&
+                item.secondAttribute == NSLayoutAttribute.CenterY {
+                    return true
             }
             
             return false
@@ -185,7 +214,12 @@ class SATextField: UITextField {
                     }
                     
                     if animated {
-                        UIView.animateWithDuration(slideAnimationDuration, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: setForInner, completion: nil)
+                        UIView.animateWithDuration(slideAnimationDuration,
+                                                   delay: 0.0,
+                                                   options: .CurveEaseInOut,
+                                                   animations: setForInner,
+                                                   completion: nil
+                        )
                     } else {
                         setForInner()
                     }
@@ -195,13 +229,20 @@ class SATextField: UITextField {
                         self.slidingPlaceholderLeadingConstraint.constant = self.placeholderOffsetXSlid
                         self.slidingPlaceholderCenterYConstraint.constant = self.placeholderOffsetYSlid
                         p.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.8, 0.8)
-                        p.textColor = self.isFirstResponder() ? self.placeholderTextColorFocused : self.placeholderTextColor
+                        p.textColor = self.isFirstResponder() ?
+                            self.placeholderTextColorFocused :
+                            self.placeholderTextColor
                         self.customizationsWhileSliding?(p)
                         self.layoutIfNeeded()
                     }
         
                     if animated {
-                        UIView.animateWithDuration(slideAnimationDuration, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: setForOuter, completion: nil)
+                        UIView.animateWithDuration(slideAnimationDuration,
+                                                   delay: 0.0,
+                                                   options: .CurveEaseInOut,
+                                                   animations: setForOuter,
+                                                   completion: nil
+                        )
                     } else {
                         setForOuter()
                     }
