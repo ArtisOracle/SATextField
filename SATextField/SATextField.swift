@@ -15,7 +15,7 @@ import UIKit
     - Sliding placeholder label
 */
 @IBDesignable
-class SATextField: UITextField {
+public class SATextField: UITextField {
     /**
         Subviews belonging to the text view.
     */
@@ -86,7 +86,7 @@ class SATextField: UITextField {
         selfInit()
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         selfInit()
     }
