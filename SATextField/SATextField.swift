@@ -19,60 +19,60 @@ public class SATextField: UITextField {
     /**
         Subviews belonging to the text view.
     */
-    enum ViewIdentifiers: Int {
+    public enum ViewIdentifiers: Int {
         case SlidePlaceholderLabel = 1
     }
     
     /// Use this instead of `placeholder` for the custom placeholder
     /// Setting a value to this creates a `UILabel` and adds it as a sub-
     /// view of this text view. If nil, removes the aformentioned label.
-    @IBInspectable var placeholderText: String? {
+    @IBInspectable public var placeholderText: String? {
         didSet {
             configurePlaceholder()
         }
     }
     /// Use this to change the text color of the placeholder for the default
     /// state. Defaults to UIColor.grayColor().
-    @IBInspectable var placeholderTextColor: UIColor = UIColor.grayColor() {
+    @IBInspectable public var placeholderTextColor: UIColor = UIColor.grayColor() {
         didSet {
             configurePlaceholder()
         }
     }
     /// Use this to change the text color of the placeholder for the slid
     /// state. Defaults to UIColor.grayColor().
-    @IBInspectable var placeholderTextColorFocused: UIColor = UIColor.whiteColor() {
+    @IBInspectable public var placeholderTextColorFocused: UIColor = UIColor.whiteColor() {
         didSet {
             configurePlaceholder()
         }
     }
     /// Whether to slide the placeholder text from inside the text field
     /// to the top of the text field.
-    @IBInspectable var slidesPlaceholder: Bool = true
+    @IBInspectable public var slidesPlaceholder: Bool = true
     /// How long to animate the placeholder slide
-    var slideAnimationDuration: NSTimeInterval = 0.15
+    public var slideAnimationDuration: NSTimeInterval = 0.15
     /// slidingPlaceholderFontSizePercentage
-    var slidingPlaceholderFontSizePercentage: CGFloat = 0.85
+    public var slidingPlaceholderFontSizePercentage: CGFloat = 0.85
     /// An X-offset for the placeholder text from its bounds
-    var placeholderOffsetXDefault: CGFloat = 0.0
+    public var placeholderOffsetXDefault: CGFloat = 0.0
     /// An X-offset for the placeholder while slid upward
-    var placeholderOffsetXSlid: CGFloat = 0.0
+    public var placeholderOffsetXSlid: CGFloat = 0.0
     /// An Y-offset for the placeholder text from its bounds
-    var placeholderOffsetYDefault: CGFloat = 0.0
+    public var placeholderOffsetYDefault: CGFloat = 0.0
     /// An Y-offset for the placeholder while slid upward
-    var placeholderOffsetYSlid: CGFloat = 0.0
+    public var placeholderOffsetYSlid: CGFloat = 0.0
     
     /// Hook invoked to customize the placeholder when slid
-    var customizationsWhileSliding: ((UILabel) -> Void)?
+    public var customizationsWhileSliding: ((UILabel) -> Void)?
     /// Hook invoked to customize the placeholder when not slid
-    var customizationsForDefault: ((UILabel) -> Void)?
+    public var customizationsForDefault: ((UILabel) -> Void)?
     
     /// Gets the placeholder's rectangle (wrapper for `placeholderRectForBounds:`)
-    var placeholderRect: CGRect {
+    public var placeholderRect: CGRect {
         return placeholderRectForBounds(bounds)
     }
     
     /// Returns the placeholder label if it exists
-    var placeholderLabel: UILabel? {
+    public var placeholderLabel: UILabel? {
         let svs = subviews 
         if let l = svs.filter({ $0.tag == ViewIdentifiers.SlidePlaceholderLabel.rawValue }).first as? UILabel {
             return l
@@ -81,7 +81,7 @@ public class SATextField: UITextField {
         return nil
     }
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         selfInit()
     }
