@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet private weak var tf: SATextField!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -21,8 +21,8 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
+
+
     @IBAction private func didHitButton(sender: UIButton) {
         view.endEditing(true)
     }
@@ -35,7 +35,7 @@ extension ViewController: UITextFieldDelegate {
         } else {
             textField.resignFirstResponder()
         }
-        
+
         return true
     }
 }
