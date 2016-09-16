@@ -15,66 +15,66 @@ import UIKit
     - Sliding placeholder label
 */
 @IBDesignable
-public class SATextField: UITextField {
+open class SATextField: UITextField {
     /**
         Subviews belonging to the text view.
     */
     public enum ViewIdentifiers: Int {
-        case SlidePlaceholderLabel = 1
+        case slidePlaceholderLabel = 1
     }
 
     /// Use this instead of `placeholder` for the custom placeholder
     /// Setting a value to this creates a `UILabel` and adds it as a sub-
     /// view of this text view. If nil, removes the aformentioned label.
-    @IBInspectable public var placeholderText: String? {
+    @IBInspectable open var placeholderText: String? {
         didSet {
             configurePlaceholder()
         }
     }
     /// Use this to change the text color of the placeholder for the default
     /// state. Defaults to UIColor.grayColor().
-    @IBInspectable public var placeholderTextColor: UIColor = UIColor.grayColor() {
+    @IBInspectable open var placeholderTextColor: UIColor = UIColor.gray {
         didSet {
             configurePlaceholder()
         }
     }
     /// Use this to change the text color of the placeholder for the slid
     /// state. Defaults to UIColor.grayColor().
-    @IBInspectable public var placeholderTextColorFocused: UIColor = UIColor.whiteColor() {
+    @IBInspectable open var placeholderTextColorFocused: UIColor = UIColor.white {
         didSet {
             configurePlaceholder()
         }
     }
     /// Whether to slide the placeholder text from inside the text field
     /// to the top of the text field.
-    @IBInspectable public var slidesPlaceholder: Bool = true
+    @IBInspectable open var slidesPlaceholder: Bool = true
     /// How long to animate the placeholder slide
-    public var slideAnimationDuration: NSTimeInterval = 0.15
+    open var slideAnimationDuration: TimeInterval = 0.15
     /// slidingPlaceholderFontSizePercentage
-    public var slidingPlaceholderFontSizePercentage: CGFloat = 0.85
+    open var slidingPlaceholderFontSizePercentage: CGFloat = 0.85
     /// An X-offset for the placeholder text from its bounds
-    public var placeholderOffsetXDefault: CGFloat = 0.0
+    open var placeholderOffsetXDefault: CGFloat = 0.0
     /// An X-offset for the placeholder while slid upward
-    public var placeholderOffsetXSlid: CGFloat = 0.0
+    open var placeholderOffsetXSlid: CGFloat = 0.0
     /// An Y-offset for the placeholder text from its bounds
-    public var placeholderOffsetYDefault: CGFloat = 0.0
+    open var placeholderOffsetYDefault: CGFloat = 0.0
     /// An Y-offset for the placeholder while slid upward
-    public var placeholderOffsetYSlid: CGFloat = 0.0
+    open var placeholderOffsetYSlid: CGFloat = 0.0
 
     /// Hook invoked to customize the placeholder when slid
-    public var customizationsWhileSliding: ((UILabel) -> Void)?
+    open var customizationsWhileSliding: ((UILabel) -> Void)?
     /// Hook invoked to customize the placeholder when not slid
-    public var customizationsForDefault: ((UILabel) -> Void)?
+    open var customizationsForDefault: ((UILabel) -> Void)?
 
     /// Gets the placeholder's rectangle (wrapper for `placeholderRectForBounds:`)
-    public var placeholderRect: CGRect {
-        return placeholderRectForBounds(bounds)
+    open var placeholderRect: CGRect {
+        return self.placeholderRect(forBounds: bounds)
     }
 
     /// Returns the placeholder label if it exists
-    public var placeholderLabel: UILabel? {
+    open var placeholderLabel: UILabel? {
         let svs = subviews
-        if let l = svs.filter({ $0.tag == ViewIdentifiers.SlidePlaceholderLabel.rawValue }).first as? UILabel {
+        if let l = svs.filter({ $0.tag == ViewIdentifiers.slidePlaceholderLabel.rawValue }).first as? UILabel {
             return l
         }
 
@@ -94,18 +94,18 @@ public class SATextField: UITextField {
     /**
         Single point of initialization for `self`.
     */
-    private func selfInit() {
+    fileprivate func selfInit() {
         addTarget(self,
                   action: #selector(UITextFieldDelegate.textFieldDidBeginEditing(_:)),
-                  forControlEvents: UIControlEvents.EditingDidBegin
+                  for: UIControlEvents.editingDidBegin
         )
         addTarget(self,
                   action: #selector(UITextFieldDelegate.textFieldDidEndEditing(_:)),
-                  forControlEvents: UIControlEvents.EditingDidEnd
+                  for: UIControlEvents.editingDidEnd
         )
         addTarget(self,
                   action: #selector(SATextField.textFieldDidChange(_:)),
-                  forControlEvents: UIControlEvents.EditingChanged
+                  for: UIControlEvents.editingChanged
         )
         configurePlaceholder()
     }
@@ -114,32 +114,32 @@ public class SATextField: UITextField {
         Configures the placeholder relative to the status of the
         `placeholderText` variable.
     */
-    private func configurePlaceholder() {
-        if let t = placeholderText where !t.isEmpty {
+    fileprivate func configurePlaceholder() {
+        if let t = placeholderText , !t.isEmpty {
             let l: UILabel
             if let p = placeholderLabel {
                 l = p
             } else {
                 l = UILabel(frame: placeholderRect)
-                l.tag = ViewIdentifiers.SlidePlaceholderLabel.rawValue
+                l.tag = ViewIdentifiers.slidePlaceholderLabel.rawValue
                 l.translatesAutoresizingMaskIntoConstraints = false
                 addSubview(l)
                 let constraints = [
                     NSLayoutConstraint(
                         item: l,
-                        attribute: NSLayoutAttribute.Leading,
-                        relatedBy: NSLayoutRelation.Equal,
+                        attribute: NSLayoutAttribute.leading,
+                        relatedBy: NSLayoutRelation.equal,
                         toItem: self,
-                        attribute: NSLayoutAttribute.Leading,
+                        attribute: NSLayoutAttribute.leading,
                         multiplier: 1.0,
                         constant: placeholderOffsetXDefault
                     ),
                     NSLayoutConstraint(
                         item: l,
-                        attribute: NSLayoutAttribute.CenterY,
-                        relatedBy: NSLayoutRelation.Equal,
+                        attribute: NSLayoutAttribute.centerY,
+                        relatedBy: NSLayoutRelation.equal,
                         toItem: self,
-                        attribute: NSLayoutAttribute.CenterY,
+                        attribute: NSLayoutAttribute.centerY,
                         multiplier: 1.0,
                         constant: placeholderOffsetYDefault
                     ),
@@ -151,7 +151,7 @@ public class SATextField: UITextField {
             l.text = placeholderText
             l.font = font
             l.textColor = placeholderTextColor
-            l.hidden = false
+            l.isHidden = false
         } else {
             placeholderLabel?.removeFromSuperview()
         }
@@ -160,9 +160,9 @@ public class SATextField: UITextField {
     /// Finds the leading constraint of the `UILabel` of the sliding placeholder
     var slidingPlaceholderLeadingConstraint: NSLayoutConstraint! {
         if let c = constraints.filter({ (item) -> Bool in
-            if let l = item.firstItem as? UILabel where
-                l.tag == ViewIdentifiers.SlidePlaceholderLabel.rawValue &&
-                item.secondAttribute == NSLayoutAttribute.Leading {
+            if let l = item.firstItem as? UILabel ,
+                l.tag == ViewIdentifiers.slidePlaceholderLabel.rawValue &&
+                item.secondAttribute == NSLayoutAttribute.leading {
                     return true
             }
 
@@ -178,9 +178,9 @@ public class SATextField: UITextField {
     /// Finds the center-Y constraint of the `UILabel` of the sliding placeholder
     var slidingPlaceholderCenterYConstraint: NSLayoutConstraint {
         if let c = constraints.filter({ (item) -> Bool in
-            if let l = item.firstItem as? UILabel where
-                l.tag == ViewIdentifiers.SlidePlaceholderLabel.rawValue &&
-                item.secondAttribute == NSLayoutAttribute.CenterY {
+            if let l = item.firstItem as? UILabel ,
+                l.tag == ViewIdentifiers.slidePlaceholderLabel.rawValue &&
+                item.secondAttribute == NSLayoutAttribute.centerY {
                     return true
             }
 
@@ -198,15 +198,15 @@ public class SATextField: UITextField {
 
         - parameter animated: Whether to animate the transition. Defaults to `true`.
     */
-    func setSlidingPlaceholder(animated: Bool = true) {
+    func setSlidingPlaceholder(_ animated: Bool = true) {
         if let p = placeholderLabel {
             if slidesPlaceholder {
-                if !isFirstResponder() && (text == nil || text!.isEmpty) {
+                if !isFirstResponder && (text == nil || text!.isEmpty) {
                     p.setAnchorPoint(CGPoint(x: 0.5, y: 0.5))
                     let setForInner = { () -> Void in
                         self.slidingPlaceholderLeadingConstraint.constant = self.placeholderOffsetXDefault
                         self.slidingPlaceholderCenterYConstraint.constant = self.placeholderOffsetYDefault
-                        p.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0)
+                        p.transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
                         p.textColor = self.placeholderTextColor
                         p.alpha = 1.0
                         self.customizationsForDefault?(p)
@@ -214,9 +214,9 @@ public class SATextField: UITextField {
                     }
 
                     if animated {
-                        UIView.animateWithDuration(slideAnimationDuration,
+                        UIView.animate(withDuration: slideAnimationDuration,
                                                    delay: 0.0,
-                                                   options: .CurveEaseInOut,
+                                                   options: UIViewAnimationOptions(),
                                                    animations: setForInner,
                                                    completion: nil
                         )
@@ -228,8 +228,8 @@ public class SATextField: UITextField {
                     let setForOuter = { () -> Void in
                         self.slidingPlaceholderLeadingConstraint.constant = self.placeholderOffsetXSlid
                         self.slidingPlaceholderCenterYConstraint.constant = self.placeholderOffsetYSlid
-                        p.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.8, 0.8)
-                        p.textColor = self.isFirstResponder() ?
+                        p.transform = CGAffineTransform.identity.scaledBy(x: 0.8, y: 0.8)
+                        p.textColor = self.isFirstResponder ?
                             self.placeholderTextColorFocused :
                             self.placeholderTextColor
                         self.customizationsWhileSliding?(p)
@@ -237,9 +237,9 @@ public class SATextField: UITextField {
                     }
 
                     if animated {
-                        UIView.animateWithDuration(slideAnimationDuration,
+                        UIView.animate(withDuration: slideAnimationDuration,
                                                    delay: 0.0,
-                                                   options: .CurveEaseInOut,
+                                                   options: UIViewAnimationOptions(),
                                                    animations: setForOuter,
                                                    completion: nil
                         )
@@ -248,25 +248,25 @@ public class SATextField: UITextField {
                     }
                 }
             } else {
-                p.hidden = text != nil && !text!.isEmpty
+                p.isHidden = text != nil && !text!.isEmpty
             }
         }
     }
 
-    func textFieldDidChange(textField: UITextField) {
-        if let tf = textField as? SATextField where tf === self {
+    func textFieldDidChange(_ textField: UITextField) {
+        if let tf = textField as? SATextField , tf === self {
             tf.setSlidingPlaceholder()
         }
     }
 
-    func textFieldDidBeginEditing(textField: UITextField) {
-        if let tf = textField as? SATextField where tf === self {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if let tf = textField as? SATextField , tf === self {
             tf.setSlidingPlaceholder()
         }
     }
 
-    func textFieldDidEndEditing(textField: UITextField) {
-        if let tf = textField as? SATextField where tf === self {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let tf = textField as? SATextField , tf === self {
             tf.setSlidingPlaceholder()
         }
     }

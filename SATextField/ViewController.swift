@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    @IBOutlet private weak var tf: SATextField!
+    @IBOutlet fileprivate weak var tf: SATextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,13 +23,13 @@ class ViewController: UIViewController {
     }
 
 
-    @IBAction private func didHitButton(sender: UIButton) {
+    @IBAction fileprivate func didHitButton(_ sender: UIButton) {
         view.endEditing(true)
     }
 }
 
 extension ViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let r = view.viewWithTag(textField.tag + 1) {
             r.becomeFirstResponder()
         } else {
