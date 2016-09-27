@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    @IBOutlet fileprivate weak var tf: SATextField!
+    @IBOutlet fileprivate weak var myTextField: SATextField?
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -16,43 +16,55 @@ extension UIView {
 
         Makes calls to `layoutIfNeeded` and `updateConstraints` after adding the constraints.
 
-        - parameter leading: Leading space (optional).
-        - parameter top: Top space (optional).
-        - parameter trailing: Trailing space (optional).
-        - parameter bottom: Bottom space (optional).
+        - parameter leading: Leading space default=0.0
+        - parameter top: Top space default=0.0
+        - parameter trailing: Trailing space default=0.0
+        - parameter bottom: Bottom space default=0.0
     */
-    func pinToParentView(_ leading: CGFloat = 0.0, top: CGFloat = 0.0, trailing: CGFloat = 0.0, bottom: CGFloat = 0.0) {
-        var constraints = [NSLayoutConstraint]()
+    func pinToParentView(_ leading: CGFloat = 0.0,
+                         top: CGFloat = 0.0,
+                         trailing: CGFloat = 0.0,
+                         bottom: CGFloat = 0.0) {
 
-        constraints.append(NSLayoutConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: self.superview, attribute: .top, multiplier: 1.0, constant: top))
-        constraints.append(NSLayoutConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: self.superview, attribute: .leading, multiplier: 1.0, constant: leading))
-        constraints.append(NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: self.superview, attribute: .bottom, multiplier: 1.0, constant: bottom))
-        constraints.append(NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: self.superview, attribute: .trailing, multiplier: 1.0, constant: trailing))
-
-        self.superview?.addConstraints(constraints)
+        self.superview?.addConstraints([
+            NSLayoutConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: superview,
+                               attribute: .top, multiplier: 1.0, constant: top),
+            NSLayoutConstraint(item: self, attribute: .leading, relatedBy: .equal,
+                               toItem: superview, attribute: .leading, multiplier: 1.0,
+                               constant: leading),
+            NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: superview,
+                               attribute: .bottom, multiplier: 1.0, constant: bottom),
+            NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal,
+                               toItem: superview, attribute: .trailing, multiplier: 1.0,
+                               constant: trailing),
+            ])
         self.superview?.setNeedsDisplay()
     }
 
     /**
         Sets the anchor point. Used for performing animations around points other than the center.
 
-        anchorPoint The desired anchor point of the view.
-    */
+     anchorPoint The desired anchor point of the view.
+     */
     func setAnchorPoint(_ anchorPoint: CGPoint) {
-        var newPoint = CGPoint(x: self.bounds.size.width * anchorPoint.x, y: self.bounds.size.height * anchorPoint.y)
-        var oldPoint = CGPoint(x: self.bounds.size.width * self.layer.anchorPoint.x, y: self.bounds.size.height * self.layer.anchorPoint.y)
+        var newPoint = CGPoint(
+            x: bounds.size.width * anchorPoint.x,
+            y: bounds.size.height * anchorPoint.y),
+        oldPoint = CGPoint(
+            x: bounds.size.width * layer.anchorPoint.x,
+            y: bounds.size.height * layer.anchorPoint.y)
 
-        newPoint = newPoint.applying(self.transform)
-        oldPoint = oldPoint.applying(self.transform)
+        newPoint = newPoint.applying(transform)
+        oldPoint = oldPoint.applying(transform)
 
-        var position = self.layer.position
+        var position = layer.position
         position.x -= oldPoint.x
         position.x += newPoint.x
 
         position.y -= oldPoint.y
         position.y += newPoint.y
 
-        self.layer.position = position
-        self.layer.anchorPoint = anchorPoint
+        layer.position = position
+        layer.anchorPoint = anchorPoint
     }
 }

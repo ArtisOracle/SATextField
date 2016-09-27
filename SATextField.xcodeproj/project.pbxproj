@@ -125,6 +125,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F8747ECC1B99172A00F84F2D /* Build configuration list for PBXNativeTarget "SATextField" */;
 			buildPhases = (
+				F86CB7411D9ABD1300B4D2B3 /* swiftlint */,
 				F8747EA91B99172900F84F2D /* Sources */,
 				F8747EAA1B99172900F84F2D /* Frameworks */,
 				F8747EAB1B99172900F84F2D /* Resources */,
@@ -216,6 +217,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F86CB7411D9ABD1300B4D2B3 /* swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = swiftlint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F8747EA91B99172900F84F2D /* Sources */ = {
