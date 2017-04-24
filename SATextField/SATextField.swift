@@ -220,7 +220,6 @@ fileprivate extension SATextField {
             self.placeholderLabel?.textColor = self.isFirstResponder ?
                 self.placeholderTextColorFocused :
                 self.placeholderTextColor
-            self.layoutIfNeeded()
         }
 
         animated ?
