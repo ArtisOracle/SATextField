@@ -180,7 +180,7 @@ private extension SATextField {
             slidingPlaceholderLeadingConstraint = label.leadingAnchor.constraint(equalTo: leadingAnchor)
             slidingPlaceholderCenterYConstraint = label.centerYAnchor.constraint(equalTo: centerYAnchor)
             width = label.widthAnchor.constraint(equalTo: widthAnchor)
-            height = label.heightAnchor.constraint(equalTo: heightAnchor)
+            height = label.heightAnchor.constraint(equalTo: heightAnchor, constant: 2.0)
         } else {
             slidingPlaceholderLeadingConstraint = NSLayoutConstraint(
                 item: label, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading,
@@ -193,7 +193,7 @@ private extension SATextField {
                                        constant: 0.0)
             height = NSLayoutConstraint(item: label, attribute: .height, relatedBy: .equal,
                                         toItem: self, attribute: .height, multiplier: 1.0,
-                                        constant: 0.0)
+                                        constant: 2.0)
         }
 
         return [slidingPlaceholderLeadingConstraint!, slidingPlaceholderCenterYConstraint!, width,
