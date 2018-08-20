@@ -15,6 +15,9 @@ class TextFieldDemoViewController: UIViewController {
     /// The text field object on the storybord.
     @IBOutlet private weak var myTextField: SATextField?
 
+    /// All text fields on the storyboard
+    @IBOutlet private var allTextFields: [SATextField] = []
+
     @IBAction func didHitButton(_ sender: UIButton) {
         view.endEditing(true)
     }
