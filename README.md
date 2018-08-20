@@ -1,8 +1,15 @@
-# SATextField
+# SATextField  [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)  ![Swift 4.0](https://img.shields.io/badge/Swift-4.0-orange.svg)
 Custom textfield with placeholder that slides from inside to outside view's bounds
 
 ## Demo
-![A demo gif should be here and not this text](SATextField/docs/preview.gif)
+![A demo gif should be here and not this text](source/SATextFieldDemo/docs/preview.gif)
+
+## Installation
+The easiest way to install and use is simply to include **SATextField.swift** into your project's "Compiled Sources" build phase.
+
+The project is set up as a shared framework (SATextField) to enable [Carthage](https://github.com/Carthage/Carthage) support if you don't care about taking on that complexity.
+
+Alternatively, this can easily be added as a git submodule into your project.
 
 # License
 The MIT License (MIT)
